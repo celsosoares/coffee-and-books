@@ -1,6 +1,8 @@
 import { Test, TestingModule } from "@nestjs/testing";
 import { BookController } from "./book.controller";
 import { BookService } from "./book.service";
+import { CreateBookDto } from "./dto/create-book.dto";
+import { UpdateBookDto } from "./dto/update-book.dto";
 import { Book } from "./entities/book.entity";
 
 const bookEntityList: Book[] = [
@@ -36,6 +38,24 @@ const bookEntityList: Book[] = [
   }),
 ];
 
+const newBookEntity = new Book({
+  title: "Senhore dos Aneis",
+  author: "Celso",
+  genre: "RPG",
+  quantity: 1,
+  isAvailable: true,
+  locality: "University",
+});
+
+const updatedBookEntity = new Book({
+  title: "Senhore dos Aneis as Duas Torres",
+  author: "Celso",
+  genre: "RPG",
+  quantity: 1,
+  isAvailable: true,
+  locality: "University",
+});
+
 describe("BookController", () => {
   let controller: BookController;
   let service: BookService;
@@ -49,6 +69,9 @@ describe("BookController", () => {
           useValue: {
             findAll: jest.fn().mockResolvedValue(bookEntityList),
             findOne: jest.fn().mockResolvedValue(bookEntityList[0]),
+            create: jest.fn().mockResolvedValue(newBookEntity),
+            update: jest.fn().mockResolvedValue(updatedBookEntity),
+            remove: jest.fn().mockResolvedValue(undefined),
           },
         },
       ],
@@ -99,6 +122,89 @@ describe("BookController", () => {
       // Assert
       expect(
         controller.findOne("570b218d-3572-4a68-8e36-776f966da3bc")
+      ).rejects.toThrowError();
+    });
+  });
+
+  describe("create", () => {
+    it("should create a new book successfully", async () => {
+      // Arrange
+      const body: CreateBookDto = {
+        title: "Senhore dos Aneis",
+        author: "Celso",
+        genre: "RPG",
+        quantity: 1,
+        isAvailable: true,
+        locality: "University",
+      };
+
+      jest.spyOn(service, "create").mockRejectedValueOnce(new Error());
+
+      // Assert
+      expect(controller.create(body)).rejects.toThrowError();
+    });
+  });
+
+  describe("update", () => {
+    it("should update a book successfully", async () => {
+      // Arrange
+      const body: UpdateBookDto = {
+        title: "Senhore dos Aneis as Duas Torres",
+        author: "Celso",
+        genre: "RPG",
+        quantity: 1,
+        isAvailable: true,
+        locality: "University",
+      };
+
+      // Act
+      const result = await controller.update(
+        "157cc9d7-18ba-4a72-a051-6d01e15be189",
+        body
+      );
+
+      // Assert
+      expect(result).toEqual(updatedBookEntity);
+    });
+
+    it("should throw an exception", () => {
+      // Arrange
+      const body: UpdateBookDto = {
+        title: "Senhore dos Aneis as Duas Torres",
+        author: "Celso",
+        genre: "RPG",
+        quantity: 1,
+        isAvailable: true,
+        locality: "University",
+      };
+
+      jest.spyOn(service, "update").mockRejectedValueOnce(new Error());
+
+      // Assert
+      expect(
+        controller.update("157cc9d7-18ba-4a72-a051-6d01e15be189", body)
+      ).rejects.toThrowError();
+    });
+  });
+
+  describe("remove", () => {
+    it("should remove a book successfully", async () => {
+      // Act
+      const result = await controller.remove(
+        "570b218d-3572-4a68-8e36-776f966da3bc"
+      );
+
+      // Assert
+      expect(result).toBeUndefined();
+    });
+
+    it("should throw an exception", () => {
+      // Arrange
+      jest.spyOn(service, "remove").mockRejectedValueOnce(new Error());
+
+      // Assert
+      expect(
+        controller.remove("570b218d-3572-4a68-8e36-776f966da3bc")
       ).rejects.toThrowError();
     });
   });
