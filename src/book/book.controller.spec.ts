@@ -57,8 +57,8 @@ const updatedBookEntity = new Book({
 });
 
 describe("BookController", () => {
-  let controller: BookController;
-  let service: BookService;
+  let bookController: BookController;
+  let bookService: BookService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -77,19 +77,19 @@ describe("BookController", () => {
       ],
     }).compile();
 
-    controller = module.get<BookController>(BookController);
-    service = module.get<BookService>(BookService);
+    bookController = module.get<BookController>(BookController);
+    bookService = module.get<BookService>(BookService);
   });
 
   it("should be defined", () => {
-    expect(controller).toBeDefined();
-    expect(service).toBeDefined();
+    expect(bookController).toBeDefined();
+    expect(bookService).toBeDefined();
   });
 
   describe("findAll", () => {
     it("should return a book list entity successfuly", async () => {
       // Act
-      const result = await controller.findAll();
+      const result = await bookController.findAll();
 
       // Assert
       expect(result).toEqual(bookEntityList);
@@ -97,17 +97,17 @@ describe("BookController", () => {
 
     it("should throw an exeception", () => {
       // Arrange
-      jest.spyOn(service, "findAll").mockRejectedValueOnce(new Error());
+      jest.spyOn(bookService, "findAll").mockRejectedValueOnce(new Error());
 
       // Assert
-      expect(controller.findAll()).rejects.toThrowError();
+      expect(bookController.findAll()).rejects.toThrowError();
     });
   });
 
   describe("findOne", () => {
     it("should return a book successfuly", async () => {
       // Act
-      const result = await controller.findOne(
+      const result = await bookController.findOne(
         "570b218d-3572-4a68-8e36-776f966da3bc"
       );
 
@@ -117,11 +117,11 @@ describe("BookController", () => {
 
     it("should throw an exeception", () => {
       // Arrange
-      jest.spyOn(service, "findOne").mockRejectedValueOnce(new Error());
+      jest.spyOn(bookService, "findOne").mockRejectedValueOnce(new Error());
 
       // Assert
       expect(
-        controller.findOne("570b218d-3572-4a68-8e36-776f966da3bc")
+        bookController.findOne("570b218d-3572-4a68-8e36-776f966da3bc")
       ).rejects.toThrowError();
     });
   });
@@ -138,10 +138,10 @@ describe("BookController", () => {
         locality: "University",
       };
 
-      jest.spyOn(service, "create").mockRejectedValueOnce(new Error());
+      jest.spyOn(bookService, "create").mockRejectedValueOnce(new Error());
 
       // Assert
-      expect(controller.create(body)).rejects.toThrowError();
+      expect(bookController.create(body)).rejects.toThrowError();
     });
   });
 
@@ -158,7 +158,7 @@ describe("BookController", () => {
       };
 
       // Act
-      const result = await controller.update(
+      const result = await bookController.update(
         "157cc9d7-18ba-4a72-a051-6d01e15be189",
         body
       );
@@ -178,11 +178,11 @@ describe("BookController", () => {
         locality: "University",
       };
 
-      jest.spyOn(service, "update").mockRejectedValueOnce(new Error());
+      jest.spyOn(bookService, "update").mockRejectedValueOnce(new Error());
 
       // Assert
       expect(
-        controller.update("157cc9d7-18ba-4a72-a051-6d01e15be189", body)
+        bookController.update("157cc9d7-18ba-4a72-a051-6d01e15be189", body)
       ).rejects.toThrowError();
     });
   });
@@ -190,7 +190,7 @@ describe("BookController", () => {
   describe("remove", () => {
     it("should remove a book successfully", async () => {
       // Act
-      const result = await controller.remove(
+      const result = await bookController.remove(
         "570b218d-3572-4a68-8e36-776f966da3bc"
       );
 
@@ -200,11 +200,11 @@ describe("BookController", () => {
 
     it("should throw an exception", () => {
       // Arrange
-      jest.spyOn(service, "remove").mockRejectedValueOnce(new Error());
+      jest.spyOn(bookService, "remove").mockRejectedValueOnce(new Error());
 
       // Assert
       expect(
-        controller.remove("570b218d-3572-4a68-8e36-776f966da3bc")
+        bookController.remove("570b218d-3572-4a68-8e36-776f966da3bc")
       ).rejects.toThrowError();
     });
   });
