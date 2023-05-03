@@ -35,4 +35,16 @@ export class Book extends BaseEntity {
 
   @Column({ name: 'locality', type: 'varchar', length: 50 })
   locality: string;
+
+  constructor(book?: Partial<Book>) {
+    super();
+    this.id = book?.id;
+    this.updateAt = book?.updateAt;
+    this.title = book?.title;
+    this.author = book?.author;
+    this.genre = book?.genre;
+    this.quantity = book?.quantity;
+    this.isAvailable = book?.isAvailable;
+    this.locality = book?.locality;
+  }
 }
