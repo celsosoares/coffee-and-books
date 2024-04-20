@@ -8,4 +8,5 @@ export declare class Book extends BaseEntity {
     quantity: number;
     isAvailable: boolean;
     locality: string;
+    constructor(book?: Partial<Book>);
 }

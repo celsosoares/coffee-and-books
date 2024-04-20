@@ -12,6 +12,17 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Book = void 0;
 const typeorm_1 = require("typeorm");
 let Book = class Book extends typeorm_1.BaseEntity {
+    constructor(book) {
+        super();
+        this.id = book === null || book === void 0 ? void 0 : book.id;
+        this.updateAt = book === null || book === void 0 ? void 0 : book.updateAt;
+        this.title = book === null || book === void 0 ? void 0 : book.title;
+        this.author = book === null || book === void 0 ? void 0 : book.author;
+        this.genre = book === null || book === void 0 ? void 0 : book.genre;
+        this.quantity = book === null || book === void 0 ? void 0 : book.quantity;
+        this.isAvailable = book === null || book === void 0 ? void 0 : book.isAvailable;
+        this.locality = book === null || book === void 0 ? void 0 : book.locality;
+    }
 };
 __decorate([
     (0, typeorm_1.PrimaryGeneratedColumn)('uuid'),
@@ -50,7 +61,8 @@ __decorate([
     __metadata("design:type", String)
 ], Book.prototype, "locality", void 0);
 Book = __decorate([
-    (0, typeorm_1.Entity)()
+    (0, typeorm_1.Entity)(),
+    __metadata("design:paramtypes", [Object])
 ], Book);
 exports.Book = Book;
 //# sourceMappingURL=book.entity.js.map

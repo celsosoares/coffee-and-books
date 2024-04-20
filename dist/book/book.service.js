@@ -29,7 +29,7 @@ let BookService = class BookService {
         return this.respository.find();
     }
     findOne(id) {
-        return this.respository.findOne(id);
+        return this.respository.findOne({ where: { id: id } });
     }
     async update(id, updateBookDto) {
         const book = await this.respository.preload(Object.assign({ id: id }, updateBookDto));

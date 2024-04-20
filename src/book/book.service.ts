@@ -21,7 +21,7 @@ export class BookService {
   }
 
   findOne(id: string): Promise<Book> {
-    return this.respository.findOne(id);
+    return this.respository.findOne({where: {id: id}});
   }
 
   async update(id: string, updateBookDto: UpdateBookDto) {
